@@ -1,3 +1,5 @@
+from os import stat
+
 class Category:
 
     # Atributo privado que funciona como um enumerator
@@ -9,3 +11,13 @@ class Category:
     @staticmethod
     def find_code(category_name):
         return (list(Category.__categories.keys())[list(Category.__categories.values()).index(category_name)])
+
+    # Retorna o nome da categoria associada ao código pesquisado
+    @staticmethod
+    def find_name(category_code):
+        return Category.__categories[category_code]
+
+    # Retorna o dicionário de categorias cadastradas
+    @staticmethod
+    def get_categories():
+        return Category.__categories
