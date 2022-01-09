@@ -18,8 +18,8 @@ class Manage_Csv:
 
     # Reescrever o arquivo, para caso haja alguma deleção na lista de tarefas
     @staticmethod
-    def rewrite_df_to_csv(to_append, path):
+    def rewrite_df_to_csv(to_update, path):
         try:
-            to_append.to_csv(path, mode='w', header=False, index=False)
+            to_update.to_csv(path, mode='w', header=True, index=False)
         except Exception as e:
             print(e)

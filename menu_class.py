@@ -1,6 +1,10 @@
 import os
 import platform
 from time import sleep
+import datetime
+from manage_csv_class import Manage_Csv
+from task_class import Task
+from task_list_class import Task_List
 
 class Menu:
 
@@ -14,6 +18,7 @@ class Menu:
     @staticmethod
     def write_menu():
         Menu.clean()
+
         print('   ________________________________')
         print(' / \                               \ ')
         print('|   |      _.·´¯`·.¸.·´¯`·.¸_      |')
@@ -57,10 +62,10 @@ class Menu:
         choice = Menu.check_menu_input()
         if choice == 1:
             # Adicionar tarefa
-            pass
+            Menu.add_task()      
         elif choice == 2:
             # Alterar status da tarefa
-            pass
+            Menu.change_task_status()
         elif choice == 3:
             # Remover tarefa
             pass
@@ -75,4 +80,54 @@ class Menu:
             print('(de verdade)')
             sleep(1)
             Menu.clean()
-            
+
+
+    @staticmethod
+    def add_task():
+        Menu.clean()
+        print('Adicionando uma nova tarefa! Digite algumas informações:')
+
+        # o nome pode aceitar qualquer coisa de propósito
+        name = input('Nome da tarefa: ')
+        # data ainda sem tratamento de erros, posteriormente criar uma função check_date()
+        date = input('Data da tarefa (hoje, amanhã ou formato dd/mm/aaaa): ')
+        # ainda sem tratamento de erros para categoria
+        category = input('Categoria: ')
+        status = -1
+        while status != '0' and status != '1':
+            status = input('Status (0 - Pendente | 1 - Concluído): ')
+            if status not in ['0', '1']:
+                print('Entrada inválida, tente novamente...')
+        status = 'Pendente' if status == '0' else 'Concluído'
+
+        task = Task(name, date, category, status)  
+        Task.insert_task(task)
+        Menu.navigate()
+    
+    def change_task_status():
+        Menu.clean()
+        print('Alterando o status de uma tarefa!')
+
+        print('Segue a lista de tarefas: ')
+        Task_List.print_tasks()
+
+        titulo = input('\nDigite o título da tarefa a ser alterada: ')
+
+        data = Task_List.get_task_list()
+        filter = data.loc[data['title'] == titulo]
+        if len(filter) == 1:
+            index = data.loc[data['title'] == titulo].first_valid_index()
+            data.loc[index,'status'] = 'Concluído' if data.loc[index,'status'] == 'Pendente' else 'Pendente'
+            # salvar o data
+            Task_List.update_task_list(data)
+            print('Alteração realizada com sucesso!')
+            Task_List.print_tasks()
+        elif len(filter) > 1:
+            print('Muitas linhas com esse mesmo título!')
+        else:
+            print('Título não encontrado na tabela!')
+        input('Pressione qualquer coisa para voltar ao Menu...')
+        Menu.navigate()
+
+
+
