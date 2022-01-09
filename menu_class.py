@@ -61,16 +61,14 @@ class Menu:
         Menu.write_menu()
         choice = Menu.check_menu_input()
         if choice == 1:
-            # Adicionar tarefa
             Menu.add_task()      
         elif choice == 2:
-            # Alterar status da tarefa
             Menu.change_task_status()
         elif choice == 3:
-            # Remover tarefa
+            Menu.remove_task()
             pass
         elif choice == 4:
-            # Visualizar tarefa
+            # Visualizar tarefa por data (hoje | amanhã | dd/mm/aaaa)
             pass
         else:
             # Fechar
@@ -104,6 +102,7 @@ class Menu:
         Task.insert_task(task)
         Menu.navigate()
     
+    @staticmethod
     def change_task_status():
         Menu.clean()
         print('Alterando o status de uma tarefa!')
@@ -118,7 +117,31 @@ class Menu:
         if len(filter) == 1:
             index = data.loc[data['title'] == titulo].first_valid_index()
             data.loc[index,'status'] = 'Concluído' if data.loc[index,'status'] == 'Pendente' else 'Pendente'
-            # salvar o data
+            Task_List.update_task_list(data)
+            print('Alteração realizada com sucesso!')
+            Task_List.print_tasks()
+        elif len(filter) > 1:
+            print('Muitas linhas com esse mesmo título!')
+        else:
+            print('Título não encontrado na tabela!')
+        input('Pressione qualquer coisa para voltar ao Menu...')
+        Menu.navigate()
+
+    @staticmethod
+    def remove_task():
+        Menu.clean()
+        print('Removendo uma tarefa da lista!')
+
+        print('Segue a lista de tarefas: ')
+        Task_List.print_tasks()
+
+        titulo = input('\nDigite o título da tarefa a ser removida: ')
+
+        data = Task_List.get_task_list()
+        filter = data.loc[data['title'] == titulo]
+        if len(filter) == 1:
+            index = data.loc[data['title'] == titulo].first_valid_index()
+            data.drop(index, inplace=True)
             Task_List.update_task_list(data)
             print('Alteração realizada com sucesso!')
             Task_List.print_tasks()
