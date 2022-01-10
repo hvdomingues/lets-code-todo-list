@@ -28,7 +28,7 @@ class Category:
     # Valida se o código é valido, caso não seja gera um erro e caso seja retorna o código.
     @staticmethod
     def check_code(code):
-        if code in Category.__categories:
+        if code < len(Category.__categories) and code >= 0:
             return code
         else:
             raise KeyError("O código da categoria é inexistente.")
