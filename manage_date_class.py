@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 import re
+from unidecode import unidecode
 
 
 class Manage_Date:
@@ -7,6 +8,11 @@ class Manage_Date:
     @staticmethod
     def str_to_date(string_date):
         if isinstance(string_date, str):
+            if unidecode(string_date.lower()) == "amanha":
+                return Manage_Date.date_to_str(Manage_Date.next_day())
+            elif string_date.lower() == "hoje":
+                return Manage_Date.date_to_str(Manage_Date.today())
+
             list_date = [int(element) for element in re.split('-|/', string_date)]
             list_date.reverse()
             return datetime(*list_date)
