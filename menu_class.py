@@ -69,11 +69,8 @@ class Menu:
             Menu.change_task_status()
         elif choice == 3:
             Menu.remove_task()
-            pass
         elif choice == 4:
-            # Visualizar tarefa por data (hoje | amanhã | dd/mm/aaaa)
             Menu.filter_task_by_date()
-            pass
         else:
             # Fechar
             Menu.clean()
@@ -94,7 +91,7 @@ class Menu:
         # data ainda sem tratamento de erros, posteriormente criar uma função check_date()
         date = input('Data da tarefa (dd/mm/aaaa): ')
         # ainda sem tratamento de erros para categoria
-        category = input('Categoria: ')
+        category = input('Categoria (Casual | Importante | Urgente): ')
         status = -1
         while status != '0' and status != '1':
             status = input('Status (0 - Pendente | 1 - Concluído): ')
@@ -130,7 +127,7 @@ class Menu:
             print('Muitas linhas com esse mesmo título!')
         else:
             print('Título não encontrado na tabela!')
-        input('Pressione qualquer tecla para voltar ao Menu...')
+        input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 
     @staticmethod
@@ -156,7 +153,7 @@ class Menu:
             print('Muitas linhas com esse mesmo título!')
         else:
             print('Título não encontrado na tabela!')
-        input('Pressione qualquer tecla para voltar ao Menu...')
+        input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 
     @staticmethod

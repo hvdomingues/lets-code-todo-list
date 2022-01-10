@@ -3,6 +3,7 @@ from os import stat
 class Category:
 
     # Atributo privado que funciona como um enumerator
+
     __categories = ['Importante','Urgente','Casual']
     
     # Retorna o primeiro código(key) dentro de __categories que possui o nome category_name
