@@ -20,7 +20,7 @@ class Task_List():
         task_list['category_code'].replace(Category.get_categories(), inplace = True)
         task_list.rename(columns={
             'title':'Título',
-            'category_code':'Código da Categoria', 
+            'category_code':'Categoria', 
             'status':'Status', 
             'date':'Data'
             }, inplace=True)
