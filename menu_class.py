@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import re
 from manage_csv_class import Manage_Csv
 from manage_date_class import Manage_Date
+from category_class import Category
 from task_class import Task
 from task_list_class import Task_List
 
@@ -44,7 +45,7 @@ class Menu:
         choice = 0
         while True:
             try:
-                choice = int(input('Digite o número correspondente à opção: '))
+                choice = int(input('\nDigite o número correspondente à opção: '))
                 if choice in [1, 2, 3, 4, 5]:
                     return choice
                 else:
@@ -91,7 +92,7 @@ class Menu:
         # o nome pode aceitar qualquer coisa de propósito
         name = input('Nome da tarefa: ')
         # data ainda sem tratamento de erros, posteriormente criar uma função check_date()
-        date = input('Data da tarefa (hoje, amanhã ou formato dd/mm/aaaa): ')
+        date = input('Data da tarefa (dd/mm/aaaa): ')
         # ainda sem tratamento de erros para categoria
         category = input('Categoria: ')
         status = -1
@@ -102,7 +103,8 @@ class Menu:
         status = 'Pendente' if status == '0' else 'Concluído'
 
         task = Task(name, date, category, status)  
-        Task.insert_task(task)
+        Task_List.insert_task(task)
+        input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
     
     @staticmethod
@@ -111,7 +113,7 @@ class Menu:
         print('Alterando o status de uma tarefa!')
 
         print('Segue a lista de tarefas: ')
-        Task_List.print_tasks()
+        print(Task_List.get_treated_task_list())
 
         titulo = input('\nDigite o título da tarefa a ser alterada: ')
 
@@ -121,8 +123,9 @@ class Menu:
             index = tasks.loc[tasks['title'] == titulo].first_valid_index()
             tasks.loc[index,'status'] = 'Concluído' if tasks.loc[index,'status'] == 'Pendente' else 'Pendente'
             Task_List.update_task_list(tasks)
+            Menu.clean()
             print('Alteração realizada com sucesso!')
-            Task_List.print_tasks()
+            print(Task_List.get_treated_task_list())
         elif len(filter) > 1:
             print('Muitas linhas com esse mesmo título!')
         else:
@@ -136,7 +139,7 @@ class Menu:
         print('Removendo uma tarefa da lista!')
 
         print('Segue a lista de tarefas: ')
-        Task_List.print_tasks()
+        print(Task_List.get_treated_task_list())
 
         titulo = input('\nDigite o título da tarefa a ser removida: ')
 
@@ -146,8 +149,9 @@ class Menu:
             index = tasks.loc[tasks['title'] == titulo].first_valid_index()
             tasks.drop(index, inplace=True)
             Task_List.update_task_list(tasks)
+            Menu.clean()
             print('Alteração realizada com sucesso!')
-            Task_List.print_tasks()
+            print(Task_List.get_treated_task_list())
         elif len(filter) > 1:
             print('Muitas linhas com esse mesmo título!')
         else:
@@ -158,26 +162,47 @@ class Menu:
     @staticmethod
     def filter_task_by_date():
         Menu.clean()
-        Task_List.print_tasks()
-        date = input('Digite a data a ser pesquisada (hoje | amanhã | dd/mm/aaaa): ')
+        print(Task_List.get_treated_task_list())
+        print_date = False
+        date = input('\nDigite a data a ser pesquisada (hoje | amanhã | dd/mm/aaaa): ')
         if date.lower() == 'hoje':
             date = Manage_Date.date_to_str(Manage_Date.today())
+            print_date = True
         elif date.lower() == 'amanha' or date.lower() == 'amanhã':
             date = Manage_Date.date_to_str(Manage_Date.next_day())
+            print_date = True
         else:
             try: 
                 converted_date = Manage_Date.str_to_date(date) 
                 date = Manage_Date.date_to_str(converted_date)
+                print_date = True
             except ValueError as e: 
                 print("O formato da data está incorreto, use apenas números e barras.") 
             except TypeError as e: 
                 print("Digite uma data correta")
         
         # Agora filtrar a tabela
-        tasks = Task_List.get_task_list()
-        print(tasks.loc[tasks['date'] == date])
+        if print_date:
+            tasks = Task_List.get_task_list()
+            filtered_tasks = tasks.loc[tasks['date'] == date].copy()
+            ### Talvez trocar isso pelo método Task_List.get_treated_task_list() alterado para receber qualquer dataframe
+            filtered_tasks['category_code'].replace(Category.get_categories(), inplace = True)
+            filtered_tasks.rename(columns={
+                'title':'Título',
+                'category_code':'Categoria', 
+                'status':'Status', 
+                'date':'Data'
+                }, inplace=True)
+            filtered_tasks.rename_axis('id', axis = 'columns', inplace = True)
+            ###
+            if filtered_tasks.empty:
+                print('\nNão foram encontradas tarefas para esta data.')
+            else:
+                Menu.clean()
+                print(f'Exibindo resultados encontrados para {date}:\n')
+                print(filtered_tasks)
 
-        input('Pressione qualquer tecla para voltar ao Menu...')
+        input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 
 
