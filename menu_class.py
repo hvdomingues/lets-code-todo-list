@@ -1,8 +1,10 @@
 import os
 import platform
 from time import sleep
-import datetime
+from datetime import datetime, timedelta
+import re
 from manage_csv_class import Manage_Csv
+from manage_date_class import Manage_Date
 from task_class import Task
 from task_list_class import Task_List
 
@@ -69,6 +71,7 @@ class Menu:
             pass
         elif choice == 4:
             # Visualizar tarefa por data (hoje | amanhã | dd/mm/aaaa)
+            Menu.filter_task_by_date()
             pass
         else:
             # Fechar
@@ -112,19 +115,19 @@ class Menu:
 
         titulo = input('\nDigite o título da tarefa a ser alterada: ')
 
-        data = Task_List.get_task_list()
-        filter = data.loc[data['title'] == titulo]
+        tasks = Task_List.get_task_list()
+        filter = tasks.loc[tasks['title'] == titulo]
         if len(filter) == 1:
-            index = data.loc[data['title'] == titulo].first_valid_index()
-            data.loc[index,'status'] = 'Concluído' if data.loc[index,'status'] == 'Pendente' else 'Pendente'
-            Task_List.update_task_list(data)
+            index = tasks.loc[tasks['title'] == titulo].first_valid_index()
+            tasks.loc[index,'status'] = 'Concluído' if tasks.loc[index,'status'] == 'Pendente' else 'Pendente'
+            Task_List.update_task_list(tasks)
             print('Alteração realizada com sucesso!')
             Task_List.print_tasks()
         elif len(filter) > 1:
             print('Muitas linhas com esse mesmo título!')
         else:
             print('Título não encontrado na tabela!')
-        input('Pressione qualquer coisa para voltar ao Menu...')
+        input('Pressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 
     @staticmethod
@@ -137,20 +140,46 @@ class Menu:
 
         titulo = input('\nDigite o título da tarefa a ser removida: ')
 
-        data = Task_List.get_task_list()
-        filter = data.loc[data['title'] == titulo]
+        tasks = Task_List.get_task_list()
+        filter = tasks.loc[tasks['title'] == titulo]
         if len(filter) == 1:
-            index = data.loc[data['title'] == titulo].first_valid_index()
-            data.drop(index, inplace=True)
-            Task_List.update_task_list(data)
+            index = tasks.loc[tasks['title'] == titulo].first_valid_index()
+            tasks.drop(index, inplace=True)
+            Task_List.update_task_list(tasks)
             print('Alteração realizada com sucesso!')
             Task_List.print_tasks()
         elif len(filter) > 1:
             print('Muitas linhas com esse mesmo título!')
         else:
             print('Título não encontrado na tabela!')
-        input('Pressione qualquer coisa para voltar ao Menu...')
+        input('Pressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
+
+    @staticmethod
+    def filter_task_by_date():
+        Menu.clean()
+        Task_List.print_tasks()
+        date = input('Digite a data a ser pesquisada (hoje | amanhã | dd/mm/aaaa): ')
+        if date.lower() == 'hoje':
+            date = Manage_Date.date_to_str(Manage_Date.today())
+        elif date.lower() == 'amanha' or date.lower() == 'amanhã':
+            date = Manage_Date.date_to_str(Manage_Date.next_day())
+        else:
+            try: 
+                converted_date = Manage_Date.str_to_date(date) 
+                date = Manage_Date.date_to_str(converted_date)
+            except ValueError as e: 
+                print("O formato da data está incorreto, use apenas números e barras.") 
+            except TypeError as e: 
+                print("Digite uma data correta")
+        
+        # Agora filtrar a tabela
+        tasks = Task_List.get_task_list()
+        print(tasks.loc[tasks['date'] == date])
+
+        input('Pressione qualquer tecla para voltar ao Menu...')
+        Menu.navigate()
+
 
 
 
