@@ -66,24 +66,29 @@ class Task_List():
         to_insert = pd.DataFrame(columns=Manage_Csv.read(Task_List.__path).columns)
 
         sucess = 0
-        errors = 0
+        errors = len(tasks)
 
         for task in tasks:
+            if task == None:
+                continue
             try:
                 if Task_List.check_task_existence(task):
                     raise Exception("Já existe task com o mesmo nome e mesma data.")
-                title = task.title
-                date = Manage_Date.date_to_str(task.date)
-                category_code = Category.find_code(task.category)
-                status = task.status
-                to_insert.loc[-1] = [title,category_code,status,date]
+
+                to_insert.loc[-1] = [task.title,task.category,task.status,task.date]
+
                 print(f"Task '{task.title}', com data '{task.date}' inserida com sucesso.")
                 sucess += 1
+                errors -= 1
 
             except Exception as e:
                 print(f"Erro ao inserir a task: {task}\nMotivo: {str(e)}")
-                errors += 1
+                
 
         Manage_Csv.append_df_to_csv(to_insert, Task_List.__path)
+
         print(f"{sucess} tasks adicionadas com sucesso, {errors} não inseridas devido a erro.")
 
+    @staticmethod
+    def delete_task():
+        pass
