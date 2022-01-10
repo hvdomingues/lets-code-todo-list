@@ -1,13 +1,5 @@
-import os
-import platform
-from time import sleep
-from datetime import datetime, timedelta
-import re
-from manage_csv_class import Manage_Csv
-from manage_date_class import Manage_Date
-from category_class import Category
-from task_class import Task
-from task_list_class import Task_List
+from numpy import ndarray
+
 
 class Menu:
 
@@ -138,21 +130,37 @@ class Menu:
         print('Segue a lista de tarefas: ')
         print(Task_List.get_treated_task_list())
 
-        titulo = input('\nDigite o título da tarefa a ser removida: ')
+        title = input('\nDigite o título da tarefa a ser removida: ')
 
-        tasks = Task_List.get_task_list()
-        filter = tasks.loc[tasks['title'] == titulo]
-        if len(filter) == 1:
-            index = tasks.loc[tasks['title'] == titulo].first_valid_index()
-            tasks.drop(index, inplace=True)
-            Task_List.update_task_list(tasks)
-            Menu.clean()
-            print('Alteração realizada com sucesso!')
-            print(Task_List.get_treated_task_list())
-        elif len(filter) > 1:
-            print('Muitas linhas com esse mesmo título!')
+        search_task = Task(title)
+
+        tasks_found = Task_List.get_equal_tasks(search_task)
+
+        if not isinstance(tasks_found, list):
+
+            tasks_found_list = tasks_found.values.tolist()
+
+            if len(tasks_found) == 1:
+                Task_List.delete_task(tasks_found_list[0])
+                Menu.clean()
+                print('Alteração realizada com sucesso!')
+                print(Task_List.get_treated_task_list())
+            elif len(tasks_found) >= 1:
+                Menu.clean()
+                print(f"Tarefas encontradas com esse título: \n{Menu.list_tasks(tasks_found_list)}")
+                input_index = (input("\nDigite os indexes que deseja remover separados por espaço ou 'todas' para deletar todas as tasks. "))
+                
+                if input_index == 'todas':
+                    for task in tasks_found_list:
+                        Task_List.delete_task(task)
+                else:
+                    indexes_to_remove = input_index.split(' ')   
+                    [Task_List.delete_task(task) for index, task in enumerate(tasks_found_list) if str(index) in indexes_to_remove]
         else:
             print('Título não encontrado na tabela!')
+
+        
+            
         input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 
@@ -202,6 +210,23 @@ class Menu:
         input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 
+    @staticmethod
+    def list_tasks(tasks):
+        tasks_string = ""
+        for index, task in enumerate(tasks):
+            tasks_string += f"\n{index}: {task[0]} | {task[3]}"
+
+        return tasks_string
 
 
 
+import os
+import platform
+from time import sleep
+from datetime import datetime, timedelta
+import re
+from manage_csv_class import Manage_Csv
+from manage_date_class import Manage_Date
+from category_class import Category
+from task_class import Task
+from task_list_class import Task_List
