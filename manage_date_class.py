@@ -1,9 +1,3 @@
-from datetime import date, datetime, timedelta
-import re
-from typing import Type
-from unidecode import unidecode
-
-
 class Manage_Date:
 
     @staticmethod
@@ -41,4 +35,7 @@ class Manage_Date:
 
 
 
-    
+from datetime import date, datetime, timedelta
+import re
+from typing import Type
+from unidecode import unidecode

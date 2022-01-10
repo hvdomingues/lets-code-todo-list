@@ -1,15 +1,7 @@
-from datetime import datetime
-from os import stat
-from typing import List
-from manage_csv_class import Manage_Csv
-from category_class import Category
-from manage_date_class import Manage_Date
-import pandas as pd
-
 class Task_List():
     
     __path = 'task_list.csv'
-
+ 
     @staticmethod
     def get_task_list():
         return Manage_Csv.read(Task_List.__path)
@@ -91,5 +83,24 @@ class Task_List():
         print(f"{sucess} tasks adicionadas com sucesso, {errors} não inseridas devido a erro.")
 
     @staticmethod
-    def delete_task():
-        pass
+    def delete_task(task):
+        '''This function receives a task type list or an index'''
+        csv_tasks = Task_List.get_task_list()
+
+        print(task)
+
+        if isinstance(task, list):
+            index = csv_tasks.loc[(csv_tasks['title'].str.lower() == task[0].lower()) & (csv_tasks['date'] == task[3])].first_valid_index()
+            csv_tasks.drop(index, inplace=True)
+            Task_List.update_task_list(csv_tasks)
+        else:
+            raise Exception("Formato não suportado.")
+
+from datetime import datetime
+from os import stat
+from typing import List
+from manage_csv_class import Manage_Csv
+from category_class import Category
+from manage_date_class import Manage_Date
+from task_class import Task
+import pandas as pd
