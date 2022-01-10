@@ -3,6 +3,11 @@
 
 Projeto em Python colaborativo para o Bootcamp de Dados do Itaú em parceria com a Lets Code.
 
+Para testar o projeto basta abrir o terminal no diretório em que clonou o projeto e executar o seguinte comando:
+```
+python program.py
+```
+
 # Proposta
 
 ## TodoList: Projeto de POO
