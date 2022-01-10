@@ -1,12 +1,3 @@
-from datetime import datetime
-from os import stat
-from typing import Type
-import pandas as pd
-from manage_csv_class import Manage_Csv
-from category_class import Category
-from manage_date_class import Manage_Date
-from task_list_class import Task_List
-
 class Task:
 
     __path = 'task_list.csv'
@@ -18,10 +9,6 @@ class Task:
             return f"{self.title} {self.date}"
         else:
             return f"{self.title}"
-        
-
-        
-    
 
     def __init__(self, title, date=None, category=None, status = 'Pendente'): #category é salva como int, status é salvo como str
         
@@ -69,4 +56,13 @@ class Task:
                 raise KeyError("Código do status incorreto, possíveis: 0 ou 1.")
         else:
             raise TypeError("O tipo do status está errado. Tipos permitidos, int ou str.")
-    
+
+
+from datetime import datetime
+from os import stat
+from typing import Type
+import pandas as pd
+from manage_csv_class import Manage_Csv
+from category_class import Category
+from manage_date_class import Manage_Date
+from task_list_class import Task_List
