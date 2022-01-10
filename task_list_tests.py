@@ -17,27 +17,27 @@ print("\n\n\n------------------- Testes de função para reescrever o DataFrame 
 print("\n\nRetorno esperado -> ")
 
 print("\n\n\n------------------- Testes de função para procurar objeto Task na Task_List utilizando title ou title e date -------------------")
-print("\n\nTeste 01. Retorno esperado -> Dataframe contendo - Teste,1,Pendente,22-10-1999\n")
-print(Task_List.get_equal_tasks(Task("Teste")))
+print("\n\nTeste 01. Retorno esperado -> Dataframe contendo - Primeira tarefa,1,Pendente,22/10/1999\n")
+print(Task_List.get_equal_tasks(Task("Primeira tarefa")))
 
 print("\n\nTeste 02. Retorno esperado -> Dataframe contendo duas tasks com o mesmo nome, datas diferentes.\n")
-print(Task_List.get_equal_tasks(Task("teste de task")))
+print(Task_List.get_equal_tasks(Task("escovar os dentes")))
 
 print("\n\nTeste 03. Retorno esperado -> Lista vazia\n")
 print(Task_List.get_equal_tasks(Task("teste de task de batata assada")))
 
 print("\n\n\n------------------- Testes de função para checar existência da Task na Task_List utilizando title ou title e date -------------------")
 print("\n\nTeste 01. Somente título passado - Retorno esperado -> True\n")
-print(Task_List.check_task_existence(Task("Teste")))
+print(Task_List.check_task_existence(Task("Assar batatas")))
 
 print("\n\nTeste 02. Título e data passado - Retorno esperado -> True\n")
-print(Task_List.check_task_existence(Task("Teste", date="22-10-1999")))
+print(Task_List.check_task_existence(Task("Assar batatas", date="09/01/2022")))
 
 print("\n\nTeste 03. Somente título passado - Retorno esperado -> False\n")
 print(Task_List.check_task_existence(Task("Esse título não existe")))
 
-print("\n\nTeste 04. Título existende e data inexistente passado - Retorno esperado -> False\n")
-print(Task_List.check_task_existence(Task("Teste", date="22-10-1998")))
+print("\n\nTeste 04. Título existente e data inexistente passado - Retorno esperado -> False\n")
+print(Task_List.check_task_existence(Task("Escovar os dentes", date="22-10-1998")))
 
 print("\n\n\n------------------- Testes de função para inserir Task na Task_List ---------------------")
 print("\n ------------------- PRECISA RESETAR O CSV ---------------------")
