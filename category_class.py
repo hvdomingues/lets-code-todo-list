@@ -3,14 +3,18 @@ from os import stat
 class Category:
 
     # Atributo privado que funciona como um enumerator
-    __categories = {0:'Casual', 1:'Importante', 2: 'Urgente'}
+
+    __categories = ['Importante','Urgente','Casual']
     
     # Retorna o primeiro código(key) dentro de __categories que possui o nome category_name
     # Se quiser manter essa estrutura de keys podemos usar uma lista no lugar de dicionário
     # E aí colocaríamos return apenas  __categories.index(category_name)
     @staticmethod
     def find_code(category_name):
-        return (list(Category.__categories.keys())[list(Category.__categories.values()).index(category_name)])
+        if category_name in Category.__categories:   
+            return Category.__categories.index(category_name)
+        else:
+            raise KeyError('O nome da categoria é inválido.')
 
     # Retorna o nome da categoria associada ao código pesquisado
     @staticmethod
@@ -21,3 +25,11 @@ class Category:
     @staticmethod
     def get_categories():
         return Category.__categories
+
+    # Valida se o código é valido, caso não seja gera um erro e caso seja retorna o código.
+    @staticmethod
+    def check_code(code):
+        if code in Category.__categories:
+            return code
+        else:
+            raise KeyError("O código da categoria é inexistente.")
