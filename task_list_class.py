@@ -62,6 +62,7 @@ class Task_List():
 
     @staticmethod
     def insert_task(*tasks):
+        '''This function requires one or more tasks, and try to append them to the CSV file'''
 
         to_insert = pd.DataFrame(columns=Manage_Csv.read(Task_List.__path).columns)
 
