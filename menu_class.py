@@ -1,4 +1,4 @@
-from numpy import ndarray
+
 
 
 class Menu:
@@ -76,19 +76,19 @@ class Menu:
     @staticmethod
     def add_task():
         Menu.clean()
-        print('Adicionando uma nova tarefa! Digite algumas informações:')
+        print(' ~ Adicionando uma nova tarefa! ~ \n\nDigite algumas informações:\n')
 
         # o nome pode aceitar qualquer coisa de propósito
-        name = input('Nome da tarefa: ')
+        name = input(' - Nome da tarefa: ')
         # data ainda sem tratamento de erros, posteriormente criar uma função check_date()
-        date = input('Data da tarefa (dd/mm/aaaa): ')
+        date = input(' - Data da tarefa (dd/mm/aaaa | hoje | amanhã): ')
         # ainda sem tratamento de erros para categoria
-        category = input('Categoria (Casual | Importante | Urgente): ')
+        category = input(' - Categoria (Casual | Importante | Urgente): ').capitalize()
         status = -1
         while status != '0' and status != '1':
-            status = input('Status (0 - Pendente | 1 - Concluído): ')
+            status = input(' - Status (0 - Pendente | 1 - Concluído): ')
             if status not in ['0', '1']:
-                print('Entrada inválida, tente novamente...')
+                print('[!] Entrada inválida, tente novamente...')
         status = 'Pendente' if status == '0' else 'Concluído'
 
         task = Task(name, date, category, status)  
@@ -99,12 +99,12 @@ class Menu:
     @staticmethod
     def change_task_status():
         Menu.clean()
-        print('Alterando o status de uma tarefa!')
+        print(' ~ Alterando o status de uma tarefa! ~\n')
 
-        print('Segue a lista de tarefas: ')
+        print('Segue a lista de tarefas:\n')
         print(Task_List.get_treated_task_list())
 
-        titulo = input('\nDigite o título da tarefa a ser alterada: ')
+        titulo = input('\n - Digite o título da tarefa a ser alterada: ')
 
         tasks = Task_List.get_task_list()
         filter = tasks.loc[tasks['title'] == titulo]
@@ -116,21 +116,21 @@ class Menu:
             print('Alteração realizada com sucesso!')
             print(Task_List.get_treated_task_list())
         elif len(filter) > 1:
-            print('Muitas linhas com esse mesmo título!')
+            print('\n[!] Muitas linhas com esse mesmo título!')
         else:
-            print('Título não encontrado na tabela!')
+            print('\n[!] Título não encontrado na tabela!')
         input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 
     @staticmethod
     def remove_task():
         Menu.clean()
-        print('Removendo uma tarefa da lista!')
+        print(' ~ Removendo uma tarefa da lista! ~\n')
 
-        print('Segue a lista de tarefas: ')
+        print('Segue a lista de tarefas:\n')
         print(Task_List.get_treated_task_list())
 
-        title = input('\nDigite o título da tarefa a ser removida: ')
+        title = input('\n - Digite o título da tarefa a ser removida: ')
 
         search_task = Task(title)
 
@@ -143,7 +143,7 @@ class Menu:
             if len(tasks_found) == 1:
                 Task_List.delete_task(tasks_found_list[0])
                 Menu.clean()
-                print('Alteração realizada com sucesso!')
+                print('Remoção realizada com sucesso!')
                 print(Task_List.get_treated_task_list())
             elif len(tasks_found) >= 1:
                 Menu.clean()
@@ -153,11 +153,12 @@ class Menu:
                 if input_index == 'todas':
                     for task in tasks_found_list:
                         Task_List.delete_task(task)
+                        print('\nRemoção de todas as tarefas com o mesmo título realizada com sucesso!')
                 else:
                     indexes_to_remove = input_index.split(' ')   
                     [Task_List.delete_task(task) for index, task in enumerate(tasks_found_list) if str(index) in indexes_to_remove]
                 
-                print('\nRemoção de tarefas realizada com sucesso!')
+
         else:
             print('Título não encontrado na tabela!')
 
@@ -227,6 +228,7 @@ import os
 import platform
 from time import sleep
 from datetime import datetime, timedelta
+from numpy import ndarray
 import re
 from manage_csv_class import Manage_Csv
 from manage_date_class import Manage_Date
