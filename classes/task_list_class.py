@@ -70,12 +70,12 @@ class Task_List():
 
                 to_insert.loc[-1] = [task.title,task.category,task.status,task.date]
 
-                print(f"\n[✓] Task '{task.title}', com data '{task.date}' inserida com sucesso.")
+                print(f"\n[green][✓] Task '{task.title}', com data '{task.date}' inserida com sucesso.[/]")
                 sucess += 1
                 errors -= 1
 
             except Exception as e:
-                print(f"\n[!] Erro ao inserir a task: {task}\nMotivo: {str(e)}")
+                print(f"\n[red][!] Erro ao inserir a task: {task}\nMotivo: {str(e)}[/]")
                 
 
         Manage_Csv.append_df_to_csv(to_insert, Task_List.__path)
@@ -96,10 +96,10 @@ class Task_List():
             index = csv_tasks.loc[(csv_tasks['title'].str.lower() == task[0].lower()) & (csv_tasks['date'] == task[3])].first_valid_index()
             csv_tasks.drop(index, inplace=True)
             Task_List.update_task_list(csv_tasks)
-            print(f'Removendo: {task} ... [✓] Sucesso!')
+            print(f'Removendo: {task} ... [green][✓] Sucesso![/]')
             
         else:
-            raise Exception("[!] Formato não suportado.")
+            raise Exception("[red][!] Formato não suportado.[red]")
 
 from datetime import datetime
 from classes.manage_csv_class import Manage_Csv
@@ -107,3 +107,4 @@ from classes.category_class import Category
 from classes.manage_date_class import Manage_Date
 from classes.task_class import Task
 import pandas as pd
+from rich import print
