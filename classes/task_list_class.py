@@ -1,6 +1,6 @@
 class Task_List():
     
-    __path = 'database/task_list.csv'
+    __path = './database/task_list.csv'
  
     @staticmethod
     def get_task_list():
