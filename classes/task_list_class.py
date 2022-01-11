@@ -7,8 +7,11 @@ class Task_List():
         return Manage_Csv.read(Task_List.__path)
 
     @staticmethod
-    def get_treated_task_list():
-        task_list = Task_List.get_task_list()
+    def get_treated_task_list(task_list = []):
+        '''This function returns the treated task_list. If none passed, reads and return the task list csv.'''
+        if isinstance(task_list, list):
+            task_list = Task_List.get_task_list()
+        
         task_list['category_code'].replace(Category.get_categories(), inplace = True)
         task_list.rename(columns={
             'title':'Título',
@@ -20,7 +23,7 @@ class Task_List():
         return task_list
 
     @staticmethod
-    def update_task_list(to_update): #É necessário esse método? 
+    def update_task_list(to_update): 
         Manage_Csv.rewrite_df_to_csv(to_update, Task_List.__path)
 
     @staticmethod
@@ -30,15 +33,18 @@ class Task_List():
 
         if task.title != None:
             if task.date != None:
-                if type(task.date) == datetime:
-                    task.date = Manage_Date.date_to_str(task.date)
+
                 equal_tasks = existing_tasks.loc[(existing_tasks['title'].str.lower() == task.title.lower()) & (existing_tasks['date'] == task.date)]
+
             else:
                 equal_tasks = existing_tasks.loc[(existing_tasks['title'].str.lower() == task.title.lower())]
-        
+        elif task.date != None:
+            equal_tasks = existing_tasks.loc[(existing_tasks['date'] == task.date)]
+
         if equal_tasks.empty:
             return []
         else:
+            
             return equal_tasks
 
     @staticmethod
@@ -67,6 +73,8 @@ class Task_List():
             try:
                 if Task_List.check_task_existence(task):
                     raise Exception("Já existe task com o mesmo nome e mesma data.")
+                if task.title == None:
+                    raise Exception("A tarefa precisa de um título.")
 
                 to_insert.loc[-1] = [task.title,task.category,task.status,task.date]
 

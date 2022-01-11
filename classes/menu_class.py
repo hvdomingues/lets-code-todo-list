@@ -208,22 +208,14 @@ class Menu:
         
         # Agora filtrar a tabela
         if print_date:
-            tasks = Task_List.get_task_list()
-            filtered_tasks = tasks.loc[tasks['date'] == date].copy()
-            ### Talvez trocar isso pelo método Task_List.get_treated_task_list() alterado para receber qualquer dataframe
-            filtered_tasks['category_code'].replace(Category.get_categories(), inplace = True)
-            filtered_tasks.rename(columns={
-                'title':'Título',
-                'category_code':'Categoria', 
-                'status':'Status', 
-                'date':'Data'
-                }, inplace=True)
-            filtered_tasks.rename_axis('id', axis = 'columns', inplace = True)
-            ###
-            if filtered_tasks.empty:
+
+            filtered_tasks = Task_List.get_equal_tasks(Task(None, date=date))
+
+            if isinstance(filtered_tasks, list):
                 print('\n[red][!] Não foram encontradas tarefas para esta data.[/]')
             else:
                 Menu.clean()
+                filtered_tasks = Task_List.get_treated_task_list(filtered_tasks)
                 print(f'[green][✓] Exibindo resultados encontrados para {date}:\n')
                 print(filtered_tasks)
 
