@@ -169,6 +169,7 @@ class Menu:
     @staticmethod
     def filter_task_by_date():
         Menu.clean()
+        # Essa exibição de toda a tabela é proposital
         print(Task_List.get_treated_task_list())
         print_date = False
         date = input('\nDigite a data a ser pesquisada (hoje | amanhã | dd/mm/aaaa): ')
