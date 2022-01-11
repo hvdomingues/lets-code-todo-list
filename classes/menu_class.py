@@ -19,6 +19,7 @@ class Menu:
         print('[yellow]    |                              |[/]')
         print('[yellow]    |[/]    [cyan]O que deseja fazer?[/]       [yellow]|[/]')
         print('[yellow]    |                              |[/]')
+        print('[yellow]    |                              |[/]')
         print('[yellow]    | 1 - Adicionar tarefa         |[/]')
         print('[yellow]    | 2 - Alterar status da tarefa |[/]')
         print('[yellow]    | 3 - Remover tarefa           |[/]')
@@ -34,7 +35,7 @@ class Menu:
         choice = 0
         while True:
             try:
-                choice = int(input('\nDigite o número correspondente à opção: '))
+                choice = int(input('\n - Digite o número correspondente à opção: '))
                 if choice in [1, 2, 3, 4, 5]:
                     return choice
                 else:
@@ -70,7 +71,7 @@ class Menu:
                 sleep(1)
                 Menu.clean()
         except Exception as e:
-            print(f'\nErro: {e}')
+            print(f'\n[red]Erro: {e}[/]')
             input('\nPressione qualquer tecla para voltar ao Menu...')
             Menu.navigate()
 
