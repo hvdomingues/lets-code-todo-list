@@ -10,6 +10,7 @@ class Manage_Date:
         else:
             raise TypeError('Formato não suportado. Utilizar datetime ou str.')
 
+
     @staticmethod
     def str_to_date(string_date):
         if unidecode(string_date.lower()) == "amanha":
@@ -17,9 +18,12 @@ class Manage_Date:
         elif string_date.lower() == "hoje":
             return Manage_Date.today()
         else:
-            list_date = [int(element) for element in re.split('-|/', string_date)]
-            list_date.reverse()
-            return datetime(*list_date)
+            try:
+                list_date = [int(element) for element in re.split('-|/', string_date)]
+                list_date.reverse()
+                return datetime(*list_date)
+            except ValueError:
+                raise Exception("[!] A data está incorreta ou o formato não é suportado, use apenas números e barras.")
 
     @staticmethod
     def date_to_str(date):

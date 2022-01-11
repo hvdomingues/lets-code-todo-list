@@ -1,8 +1,4 @@
 title,category_code,status,date
-Primeira tarefa,1,Concluído,22/10/1999
-Escovar os dentes,0,Pendente,10/02/1945
-Lavar o carro,0,Concluído,11/02/1945
-Comprar pasta dental,0,Pendente,11/02/1945
 Escovar os dentes,0,Pendente,11/02/1945
 Assar batatas,1,Concluído,09/01/2022
 Separar atribuições,1,Concluído,09/01/2022
@@ -10,4 +6,4 @@ Implementar filtro de data,0,Concluído,10/01/2022
 Resgatar cupom do ifood,2,Concluído,10/01/2022
 Limpar a lista,0,Pendente,12/01/2022
 Revisar Lista,0,Pendente,10/01/2022
-Lavar o carro,2,Pendente,12/01/2022
+HENRIQUE,0,Pendente,11/01/2022

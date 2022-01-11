@@ -19,7 +19,10 @@ class Category:
     # Retorna o nome da categoria associada ao código pesquisado
     @staticmethod
     def find_name(category_code):
-        return Category.__categories[category_code]
+        try:
+            return Category.__categories[category_code]
+        except Exception:
+            raise KeyError("O código da categoria é inexistente.")
 
     # Retorna as categorias cadastradas em formato de dicionário
     @staticmethod

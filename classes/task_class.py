@@ -1,7 +1,5 @@
 class Task:
-
-    __path = 'task_list.csv'
-
+    
     __status_dict = {0:"Pendente", 1:"Concluído"}
 
     def __repr__(self):
@@ -11,15 +9,11 @@ class Task:
             return f"{self.title}"
 
     def __init__(self, title, date=None, category=None, status = 'Pendente'): #category é salva como int, status é salvo como str
-        
-        try:
+
             self.title = title
             self.date = Task.check_date(date)
             self.category = Task.check_category(category)
             self.status = Task.check_status(status)
-            
-        except Exception as e:
-            print(f"Não foi possível instanciar a task {self.title}. Motivo: {e}")
 
     
     @staticmethod
@@ -32,6 +26,7 @@ class Task:
             return Manage_Date.convert_date(Manage_Date.str_to_date(date))
         else:
             return Manage_Date.convert_date(date)
+            
     @staticmethod
     def check_category(category):
         if category == None:
@@ -42,6 +37,7 @@ class Task:
             return Category.check_code(category)
         else:
             raise TypeError("O tipo da categoria não é válido. Utilize o código ou o nome por extenso.")
+
     @staticmethod
     def check_status(status):
         if isinstance(status, str):
@@ -62,7 +58,7 @@ from datetime import datetime
 from os import stat
 from typing import Type
 import pandas as pd
-from manage_csv_class import Manage_Csv
-from category_class import Category
-from manage_date_class import Manage_Date
-from task_list_class import Task_List
+from classes.manage_csv_class import Manage_Csv
+from classes.category_class import Category
+from classes.manage_date_class import Manage_Date
+from classes.task_list_class import Task_List

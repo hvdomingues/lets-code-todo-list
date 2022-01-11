@@ -55,22 +55,27 @@ class Menu:
     def navigate():
         Menu.write_menu()
         choice = Menu.check_menu_input()
-        if choice == 1:
-            Menu.add_task()      
-        elif choice == 2:
-            Menu.change_task_status()
-        elif choice == 3:
-            Menu.remove_task()
-        elif choice == 4:
-            Menu.filter_task_by_date()
-        else:
-            # Fechar
-            Menu.clean()
-            print('Obrigado por usar este programa!')
-            sleep(2)
-            print('(de verdade)')
-            sleep(1)
-            Menu.clean()
+        try:
+            if choice == 1:
+                Menu.add_task()      
+            elif choice == 2:
+                Menu.change_task_status()
+            elif choice == 3:
+                Menu.remove_task()
+            elif choice == 4:
+                Menu.filter_task_by_date()
+            else:
+                # Fechar
+                Menu.clean()
+                print('Obrigado por usar este programa!')
+                sleep(2)
+                print('(de verdade)')
+                sleep(1)
+                Menu.clean()
+        except Exception as e:
+            print(f'\nErro: {e}')
+            input('\nPressione qualquer tecla para voltar ao Menu...')
+            Menu.navigate()
 
 
     @staticmethod
@@ -93,6 +98,7 @@ class Menu:
 
         task = Task(name, date, category, status)  
         Task_List.insert_task(task)
+
         input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
     
@@ -107,9 +113,9 @@ class Menu:
         titulo = input('\n - Digite o título da tarefa a ser alterada: ')
 
         tasks = Task_List.get_task_list()
-        filter = tasks.loc[tasks['title'] == titulo]
+        filter = tasks.loc[tasks['title'].str.lower() == titulo.lower()]
         if len(filter) == 1:
-            index = tasks.loc[tasks['title'] == titulo].first_valid_index()
+            index = tasks.loc[tasks['title'].str.lower() == titulo.lower()].first_valid_index()
             tasks.loc[index,'status'] = 'Concluído' if tasks.loc[index,'status'] == 'Pendente' else 'Pendente'
             Task_List.update_task_list(tasks)
             Menu.clean()
@@ -238,11 +244,7 @@ class Menu:
 import os
 import platform
 from time import sleep
-from datetime import datetime, timedelta
-from numpy import ndarray
-import re
-from manage_csv_class import Manage_Csv
-from manage_date_class import Manage_Date
-from category_class import Category
-from task_class import Task
-from task_list_class import Task_List
+from classes.manage_date_class import Manage_Date
+from classes.category_class import Category
+from classes.task_class import Task
+from classes.task_list_class import Task_List
