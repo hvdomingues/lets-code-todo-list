@@ -1,6 +1,3 @@
-
-
-
 class Menu:
 
     @staticmethod
@@ -14,22 +11,22 @@ class Menu:
     def write_menu():
         Menu.clean()
 
-        print('   ________________________________')
-        print(' / \                               \ ')
-        print('|   |      _.·´¯`·.¸.·´¯`·.¸_      |')
-        print(' \_ |      TO-DO LIST PROJECT      |')
-        print('    |      ¯`·.¸¸.·´`·.¸¸.·´¯      |')
-        print('    |                              |')
-        print('    |    O que deseja fazer?       |')
-        print('    |                              |')
-        print('    | 1 - Adicionar tarefa         |')
-        print('    | 2 - Alterar status da tarefa |')
-        print('    | 3 - Remover tarefa           |')
-        print('    | 4 - Visualizar tarefa        |')
-        print('    | 5 - Fechar                   |')
-        print('    |   ___________________________|___')
-        print('    |  /                              /')
-        print('    \_/______________________________/')
+        print('[yellow]   ________________________________[/]')
+        print('[yellow] / \                               \ [/]')
+        print('[yellow]|   |[/]      [magenta]_.·´¯`·.¸.·´¯`·.¸_[/]      [yellow]|[/]')
+        print('[yellow] \_ |[/]      [bold yellow]TO-DO LIST PROJECT[/]      [yellow]|[/]')
+        print('[yellow]    |[/]      [magenta]¯`·.¸¸.·´`·.¸¸.·´¯[/]      [yellow]|[/]')
+        print('[yellow]    |                              |[/]')
+        print('[yellow]    |[/]    [cyan]O que deseja fazer?[/]       [yellow]|[/]')
+        print('[yellow]    |                              |[/]')
+        print('[yellow]    | 1 - Adicionar tarefa         |[/]')
+        print('[yellow]    | 2 - Alterar status da tarefa |[/]')
+        print('[yellow]    | 3 - Remover tarefa           |[/]')
+        print('[yellow]    | 4 - Visualizar tarefa        |[/]')
+        print('[yellow]    | 5 - Fechar                   |[/]')
+        print('[yellow]    |   ___________________________|___[/]')
+        print('[yellow]    |  /                              /[/]')
+        print('[yellow]    \_/______________________________/[/]')
 
 
     @staticmethod
@@ -41,13 +38,13 @@ class Menu:
                 if choice in [1, 2, 3, 4, 5]:
                     return choice
                 else:
-                    print('Você deve escolhar um dos números do menu...')
+                    print('\n[red][!]Você deve escolhar um dos números do menu...[/]')
                     sleep(1.5)
                     Menu.write_menu()
                     return Menu.check_menu_input()
             except:
                 # Não sei se eu deveria lançar um Exception aqui
-                print('[!] A entrada deve ser de um número inteiro!')
+                print('\n[red][!] A entrada deve ser de um número inteiro![/]')
                 sleep(1.5)
                 Menu.write_menu()
 
@@ -67,9 +64,9 @@ class Menu:
             else:
                 # Fechar
                 Menu.clean()
-                print('Obrigado por usar este programa!')
+                print('[green][✓] Obrigado por usar este programa![/]')
                 sleep(2)
-                print('(de verdade)')
+                print('[cyan](de verdade)[/]')
                 sleep(1)
                 Menu.clean()
         except Exception as e:
@@ -81,7 +78,7 @@ class Menu:
     @staticmethod
     def add_task():
         Menu.clean()
-        print(' ~ Adicionando uma nova tarefa! ~ \n\nDigite algumas informações:\n')
+        print(' [bold yellow]~ Adicionando uma nova tarefa! ~[/] \n\nDigite algumas informações:\n')
 
         # o nome pode aceitar qualquer coisa de propósito
         name = input(' - Nome da tarefa: ')
@@ -93,7 +90,7 @@ class Menu:
         while status != '0' and status != '1':
             status = input(' - Status (0 - Pendente | 1 - Concluído): ')
             if status not in ['0', '1']:
-                print('[!] Entrada inválida, tente novamente...')
+                print('[red][!] Entrada inválida, tente novamente...[/]')
         status = 'Pendente' if status == '0' else 'Concluído'
 
         task = Task(name, date, category, status)  
@@ -105,7 +102,7 @@ class Menu:
     @staticmethod
     def change_task_status():
         Menu.clean()
-        print(' ~ Alterando o status de uma tarefa! ~\n')
+        print(' [bold yellow]~ Alterando o status de uma tarefa! ~[/]\n')
 
         print('Segue a lista de tarefas:\n')
         print(Task_List.get_treated_task_list())
@@ -119,19 +116,19 @@ class Menu:
             tasks.loc[index,'status'] = 'Concluído' if tasks.loc[index,'status'] == 'Pendente' else 'Pendente'
             Task_List.update_task_list(tasks)
             Menu.clean()
-            print('[✓] Alteração realizada com sucesso!')
+            print('[green][✓] Alteração realizada com sucesso!\n')
             print(Task_List.get_treated_task_list())
         elif len(filter) > 1:
-            print('\n[!] Muitas linhas com esse mesmo título!')
+            print('\n[red][!] Muitas linhas com esse mesmo título![/]')
         else:
-            print('\n[!] Título não encontrado na tabela!')
+            print('\n[red][!] Título não encontrado na tabela![/]')
         input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 
     @staticmethod
     def remove_task():
         Menu.clean()
-        print(' ~ Removendo uma tarefa da lista! ~\n')
+        print(' [bold yellow]~ Removendo uma tarefa da lista! ~[/]\n')
 
         print('Segue a lista de tarefas:\n')
         print(Task_List.get_treated_task_list())
@@ -149,7 +146,7 @@ class Menu:
             if len(tasks_found) == 1:
                 Task_List.delete_task(tasks_found_list[0])
                 Menu.clean()
-                print('[✓] Remoção realizada com sucesso!')
+                print('[green][✓] Remoção realizada com sucesso!\n')
                 print(Task_List.get_treated_task_list())
             elif len(tasks_found) >= 1:
                 Menu.clean()
@@ -159,7 +156,7 @@ class Menu:
                 if input_index == 'todas':
                     for task in tasks_found_list:
                         Task_List.delete_task(task)
-                    print('\n[✓] Remoção de todas as tarefas com o mesmo título realizada com sucesso!')
+                    print('\n[green][✓] Remoção de todas as tarefas com o mesmo título realizada com sucesso!')
                 else:
                     indexes_to_remove = input_index.split(' ')
                     remove_something = False   
@@ -173,11 +170,11 @@ class Menu:
                     #[Task_List.delete_task(task) for index, task in enumerate(tasks_found_list) if str(index) in indexes_to_remove]
 
                     if not remove_something:
-                        print('[!] Entrada inválida')
+                        print('[red][!] Entrada inválida[/]')
                 
 
         else:
-            print('[!] Título não encontrado na tabela!')
+            print('[red][!] Título não encontrado na tabela![/]')
 
         
             
@@ -187,6 +184,7 @@ class Menu:
     @staticmethod
     def filter_task_by_date():
         Menu.clean()
+        print(' [bold yellow]~ Filtrando a tabela por data! ~[/] \n\nTabela completa:\n')
         # Essa exibição de toda a tabela é proposital
         print(Task_List.get_treated_task_list())
         print_date = False
@@ -203,9 +201,9 @@ class Menu:
                 date = Manage_Date.date_to_str(converted_date)
                 print_date = True
             except ValueError as e: 
-                print("[!] O formato da data está incorreto, use apenas números e barras.") 
+                print("[red][!] O formato da data está incorreto, use apenas números e barras.[/]") 
             except TypeError as e: 
-                print("[!] Digite uma data correta")
+                print("[red][!] Digite uma data correta[/]")
         
         # Agora filtrar a tabela
         if print_date:
@@ -222,10 +220,10 @@ class Menu:
             filtered_tasks.rename_axis('id', axis = 'columns', inplace = True)
             ###
             if filtered_tasks.empty:
-                print('\n[!] Não foram encontradas tarefas para esta data.')
+                print('\n[red][!] Não foram encontradas tarefas para esta data.[/]')
             else:
                 Menu.clean()
-                print(f'[✓] Exibindo resultados encontrados para {date}:\n')
+                print(f'[green][✓] Exibindo resultados encontrados para {date}:\n')
                 print(filtered_tasks)
 
         input('\nPressione qualquer tecla para voltar ao Menu...')
@@ -248,3 +246,4 @@ from classes.manage_date_class import Manage_Date
 from classes.category_class import Category
 from classes.task_class import Task
 from classes.task_list_class import Task_List
+from rich import print
