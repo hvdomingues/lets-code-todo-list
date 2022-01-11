@@ -1,3 +1,3 @@
-from menu_class import Menu
+from classes.menu_class import Menu
 
 Menu.navigate()

@@ -1,6 +1,6 @@
 class Task_List():
     
-    __path = 'task_list.csv'
+    __path = 'database/task_list.csv'
  
     @staticmethod
     def get_task_list():
@@ -102,10 +102,8 @@ class Task_List():
             raise Exception("[!] Formato não suportado.")
 
 from datetime import datetime
-from os import stat
-from typing import List
-from manage_csv_class import Manage_Csv
-from category_class import Category
-from manage_date_class import Manage_Date
-from task_class import Task
+from classes.manage_csv_class import Manage_Csv
+from classes.category_class import Category
+from classes.manage_date_class import Manage_Date
+from classes.task_class import Task
 import pandas as pd

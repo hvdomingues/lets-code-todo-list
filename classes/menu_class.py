@@ -244,11 +244,7 @@ class Menu:
 import os
 import platform
 from time import sleep
-from datetime import datetime, timedelta
-from numpy import ndarray
-import re
-from manage_csv_class import Manage_Csv
-from manage_date_class import Manage_Date
-from category_class import Category
-from task_class import Task
-from task_list_class import Task_List
+from classes.manage_date_class import Manage_Date
+from classes.category_class import Category
+from classes.task_class import Task
+from classes.task_list_class import Task_List

@@ -1,7 +1,5 @@
 class Task:
-
-    __path = 'task_list.csv'
-
+    
     __status_dict = {0:"Pendente", 1:"Concluído"}
 
     def __repr__(self):
@@ -60,7 +58,7 @@ from datetime import datetime
 from os import stat
 from typing import Type
 import pandas as pd
-from manage_csv_class import Manage_Csv
-from category_class import Category
-from manage_date_class import Manage_Date
-from task_list_class import Task_List
+from classes.manage_csv_class import Manage_Csv
+from classes.category_class import Category
+from classes.manage_date_class import Manage_Date
+from classes.task_list_class import Task_List

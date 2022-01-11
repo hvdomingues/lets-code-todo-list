@@ -1,5 +1,5 @@
-from task_list_class import Task_List
-from task_class import Task
+from ..classes.task_list_class import Task_List
+from ..classes.task_class import Task
 
 
 # ----------------------------------------------------------------------------------------- #
