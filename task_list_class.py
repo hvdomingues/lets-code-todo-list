@@ -94,6 +94,7 @@ class Task_List():
             index = csv_tasks.loc[(csv_tasks['title'].str.lower() == task[0].lower()) & (csv_tasks['date'] == task[3])].first_valid_index()
             csv_tasks.drop(index, inplace=True)
             Task_List.update_task_list(csv_tasks)
+            print(f'Removendo: {task} ... [✓] Sucesso!')
             
         else:
             raise Exception("Formato não suportado.")
