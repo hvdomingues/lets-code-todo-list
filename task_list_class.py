@@ -70,12 +70,12 @@ class Task_List():
 
                 to_insert.loc[-1] = [task.title,task.category,task.status,task.date]
 
-                print(f"\nTask '{task.title}', com data '{task.date}' inserida com sucesso.")
+                print(f"\n[✓] Task '{task.title}', com data '{task.date}' inserida com sucesso.")
                 sucess += 1
                 errors -= 1
 
             except Exception as e:
-                print(f"\nErro ao inserir a task: {task}\nMotivo: {str(e)}")
+                print(f"\n[!] Erro ao inserir a task: {task}\nMotivo: {str(e)}")
                 
 
         Manage_Csv.append_df_to_csv(to_insert, Task_List.__path)
@@ -97,7 +97,7 @@ class Task_List():
             print(f'Removendo: {task} ... [✓] Sucesso!')
             
         else:
-            raise Exception("Formato não suportado.")
+            raise Exception("[!] Formato não suportado.")
 
 from datetime import datetime
 from os import stat
