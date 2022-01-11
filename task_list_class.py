@@ -70,29 +70,31 @@ class Task_List():
 
                 to_insert.loc[-1] = [task.title,task.category,task.status,task.date]
 
-                print(f"Task '{task.title}', com data '{task.date}' inserida com sucesso.")
+                print(f"\nTask '{task.title}', com data '{task.date}' inserida com sucesso.")
                 sucess += 1
                 errors -= 1
 
             except Exception as e:
-                print(f"Erro ao inserir a task: {task}\nMotivo: {str(e)}")
+                print(f"\nErro ao inserir a task: {task}\nMotivo: {str(e)}")
                 
 
         Manage_Csv.append_df_to_csv(to_insert, Task_List.__path)
 
-        print(f"{sucess} tasks adicionadas com sucesso, {errors} não inseridas devido a erro.")
+        # Para alguma implementação posterior de inserção de várias tasks
+        # print(f"{sucess} tasks adicionadas com sucesso, {errors} não inseridas devido a erro.")
 
     @staticmethod
     def delete_task(task):
         '''This function receives a task type list or an index'''
         csv_tasks = Task_List.get_task_list()
 
-        print(task)
+        #print(task)
 
         if isinstance(task, list):
             index = csv_tasks.loc[(csv_tasks['title'].str.lower() == task[0].lower()) & (csv_tasks['date'] == task[3])].first_valid_index()
             csv_tasks.drop(index, inplace=True)
             Task_List.update_task_list(csv_tasks)
+            
         else:
             raise Exception("Formato não suportado.")
 

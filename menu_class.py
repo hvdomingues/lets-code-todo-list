@@ -156,6 +156,8 @@ class Menu:
                 else:
                     indexes_to_remove = input_index.split(' ')   
                     [Task_List.delete_task(task) for index, task in enumerate(tasks_found_list) if str(index) in indexes_to_remove]
+                
+                print('\nRemoção de tarefas realizada com sucesso!')
         else:
             print('Título não encontrado na tabela!')
 
