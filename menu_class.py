@@ -47,7 +47,7 @@ class Menu:
                     return Menu.check_menu_input()
             except:
                 # Não sei se eu deveria lançar um Exception aqui
-                print('A entrada deve ser de um número inteiro!')
+                print('[!] A entrada deve ser de um número inteiro!')
                 sleep(1.5)
                 Menu.write_menu()
 
@@ -113,7 +113,7 @@ class Menu:
             tasks.loc[index,'status'] = 'Concluído' if tasks.loc[index,'status'] == 'Pendente' else 'Pendente'
             Task_List.update_task_list(tasks)
             Menu.clean()
-            print('Alteração realizada com sucesso!')
+            print('[✓] Alteração realizada com sucesso!')
             print(Task_List.get_treated_task_list())
         elif len(filter) > 1:
             print('\n[!] Muitas linhas com esse mesmo título!')
@@ -143,7 +143,7 @@ class Menu:
             if len(tasks_found) == 1:
                 Task_List.delete_task(tasks_found_list[0])
                 Menu.clean()
-                print('Remoção realizada com sucesso!')
+                print('[✓] Remoção realizada com sucesso!')
                 print(Task_List.get_treated_task_list())
             elif len(tasks_found) >= 1:
                 Menu.clean()
@@ -153,14 +153,25 @@ class Menu:
                 if input_index == 'todas':
                     for task in tasks_found_list:
                         Task_List.delete_task(task)
-                        print('\nRemoção de todas as tarefas com o mesmo título realizada com sucesso!')
+                    print('\n[✓] Remoção de todas as tarefas com o mesmo título realizada com sucesso!')
                 else:
-                    indexes_to_remove = input_index.split(' ')   
-                    [Task_List.delete_task(task) for index, task in enumerate(tasks_found_list) if str(index) in indexes_to_remove]
+                    indexes_to_remove = input_index.split(' ')
+                    remove_something = False   
+                    # Troquei para um for fora de list comprehension só para facilitar o print em caso de digitação errada 
+                    for index, task in enumerate(tasks_found_list):
+                        if str(index) in indexes_to_remove:
+                            Task_List.delete_task(task)
+                            remove_something = True
+                    
+                    # Antigo
+                    #[Task_List.delete_task(task) for index, task in enumerate(tasks_found_list) if str(index) in indexes_to_remove]
+
+                    if not remove_something:
+                        print('[!] Entrada inválida')
                 
 
         else:
-            print('Título não encontrado na tabela!')
+            print('[!] Título não encontrado na tabela!')
 
         
             
@@ -186,9 +197,9 @@ class Menu:
                 date = Manage_Date.date_to_str(converted_date)
                 print_date = True
             except ValueError as e: 
-                print("O formato da data está incorreto, use apenas números e barras.") 
+                print("[!] O formato da data está incorreto, use apenas números e barras.") 
             except TypeError as e: 
-                print("Digite uma data correta")
+                print("[!] Digite uma data correta")
         
         # Agora filtrar a tabela
         if print_date:
@@ -205,10 +216,10 @@ class Menu:
             filtered_tasks.rename_axis('id', axis = 'columns', inplace = True)
             ###
             if filtered_tasks.empty:
-                print('\nNão foram encontradas tarefas para esta data.')
+                print('\n[!] Não foram encontradas tarefas para esta data.')
             else:
                 Menu.clean()
-                print(f'Exibindo resultados encontrados para {date}:\n')
+                print(f'[✓] Exibindo resultados encontrados para {date}:\n')
                 print(filtered_tasks)
 
         input('\nPressione qualquer tecla para voltar ao Menu...')
