@@ -4,7 +4,7 @@ class Category:
 
     # Atributo privado que funciona como um enumerator
 
-    __categories = ['Importante','Urgente','Casual']
+    __categories = ['Casual','Importante','Urgente']
     
     # Retorna o primeiro código(key) dentro de __categories que possui o nome category_name
     # Se quiser manter essa estrutura de keys podemos usar uma lista no lugar de dicionário
@@ -21,10 +21,15 @@ class Category:
     def find_name(category_code):
         return Category.__categories[category_code]
 
-    # Retorna o dicionário de categorias cadastradas
+    # Retorna as categorias cadastradas em formato de dicionário
     @staticmethod
     def get_categories():
-        return Category.__categories
+        cat_dict = {}
+        index = 0
+        for category in Category.__categories:
+            cat_dict[index] = category
+            index += 1
+        return cat_dict
 
     # Valida se o código é valido, caso não seja gera um erro e caso seja retorna o código.
     @staticmethod
