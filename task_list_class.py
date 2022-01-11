@@ -80,8 +80,10 @@ class Task_List():
 
         Manage_Csv.append_df_to_csv(to_insert, Task_List.__path)
 
-        # Para alguma implementação posterior de inserção de várias tasks
-        # print(f"{sucess} tasks adicionadas com sucesso, {errors} não inseridas devido a erro.")
+        if len(tasks) > 1:
+            print(f"{sucess} tasks adicionadas com sucesso, {errors} não inseridas devido a erro.")
+
+        
 
     @staticmethod
     def delete_task(task):
