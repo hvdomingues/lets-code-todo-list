@@ -101,12 +101,12 @@ class Menu:
         Menu.navigate()
     
     @staticmethod
-    def change_task_status():
+    def change_task_status(): #MUDAR
         Menu.clean()
         print(' [bold yellow]~ Alterando o status de uma tarefa! ~[/]\n')
 
         print('Segue a lista de tarefas:\n')
-        print(Task_List.get_treated_task_list())
+        Menu.navigate_dataframe(Task_List.get_treated_task_list())
 
         titulo = input('\n - Digite o título da tarefa a ser alterada: ')
 
@@ -187,7 +187,7 @@ class Menu:
         Menu.clean()
         print(' [bold yellow]~ Filtrando a tabela por data! ~[/] \n\nTabela completa:\n')
         # Essa exibição de toda a tabela é proposital
-        print(Task_List.get_treated_task_list())
+        Menu.navigate_dataframe(Task_List.get_treated_task_list())
         print_date = False
         date = input('\nDigite a data a ser pesquisada (hoje | amanhã | dd/mm/aaaa): ')
         if date.lower() == 'hoje':
@@ -217,7 +217,7 @@ class Menu:
                 Menu.clean()
                 filtered_tasks = Task_List.get_treated_task_list(filtered_tasks)
                 print(f'[green][✓] Exibindo resultados encontrados para {date}:\n')
-                print(filtered_tasks)
+                Menu.navigate_dataframe(filtered_tasks)
 
         input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
@@ -229,6 +229,29 @@ class Menu:
             tasks_string += f"\n{index}: {task[0]} | {task[3]}"
 
         return tasks_string
+
+    @staticmethod
+    def navigate_dataframe(df, limit = 10, page = 1):
+        print(df.iloc[page-1:(page + limit - 1)])
+
+        if len(df.index) > limit:
+            option = -1
+
+            if page - 1 == 0:
+                while option not in (1,3):
+                    option = int(input("\nDigite 1 para a próxima página e 3 para manter a página."))
+            elif len(df.index) > page + limit:
+                while option not in (1,2,3):
+                    option = int(input("\nDigite 1 para a próxima página, 2 para a página anterior e 3 para manter a página."))
+            else:
+                while option not in (2,3):
+                    option = int(input("\nDigite 2 para a página anterior e 3 para manter a página."))
+            
+            if option == 1:
+                Menu.navigate_dataframe(df, limit, page + limit)
+            elif option == 2:
+                Menu.navigate_dataframe(df, limit, page - limit)
+
 
 
 
