@@ -230,27 +230,34 @@ class Menu:
 
         return tasks_string
 
-    @staticmethod
-    def navigate_dataframe(df, limit = 10, page = 1):
-        print(df.iloc[page-1:(page + limit - 1)])
-
-        if len(df.index) > limit:
-            option = -1
-
-            if page - 1 == 0:
-                while option not in (1,3):
-                    option = int(input("\nDigite 1 para a próxima página e 3 para manter a página."))
-            elif len(df.index) > page + limit:
-                while option not in (1,2,3):
-                    option = int(input("\nDigite 1 para a próxima página, 2 para a página anterior e 3 para manter a página."))
-            else:
-                while option not in (2,3):
-                    option = int(input("\nDigite 2 para a página anterior e 3 para manter a página."))
-            
-            if option == 1:
-                Menu.navigate_dataframe(df, limit, page + limit)
+    @staticmethod 
+    def navigate_dataframe(df, limit = 10, page = 1): 
+ 
+        print(f' [yellow][Lista de Tarefas][/] Página {page}/{int(np.ceil(len(df.index)/limit))}:\n') 
+ 
+        index = page*limit 
+ 
+        print(df.iloc[index-limit:(index)]) 
+ 
+        if len(df.index) > limit: 
+            option = -1 
+ 
+            if page - 1 == 0: 
+                while option not in (1,3): 
+                    option = int(input("\nDigite 1 para a próxima página e 3 para manter a página: ")) 
+            elif len(df.index) > index: 
+                while option not in (1,2,3): 
+                    option = int(input("\nDigite 1 para a próxima página, 2 para a página anterior e 3 para manter a página: ")) 
+            else: 
+                while option not in (2,3): 
+                    option = int(input("\nDigite 2 para a página anterior e 3 para manter a página: ")) 
+ 
+            if option == 1: 
+                Menu.clean() 
+                Menu.navigate_dataframe(df, limit, page + 1) 
             elif option == 2:
-                Menu.navigate_dataframe(df, limit, page - limit)
+                Menu.clean()  
+                Menu.navigate_dataframe(df, limit, page - 1)
 
 
 
@@ -258,6 +265,7 @@ class Menu:
 import os
 import platform
 from time import sleep
+import numpy as np
 from classes.manage_date_class import Manage_Date
 from classes.category_class import Category
 from classes.task_class import Task
