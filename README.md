@@ -8,6 +8,12 @@ Para testar o projeto basta abrir o terminal no diretório em que clonou o proje
 python program.py
 ```
 
+Instalar dependências:
+```
+pip install -r requirements.txt
+```
+
+
 # Proposta
 
 ## TodoList: Projeto de POO
@@ -33,8 +39,8 @@ A aplicação deve dispor de um menu com as seguintes opções para o usuário:
     - Você pode querer criar um submódulo com funções que executem algo que você costuma fazer com mais frequência.
     - Você pode adicionar mais opções para o usuário, como editar uma tarefa.
     - Você pode permitir que, no momento da criação de uma tarefa, o usuário possa digitar a data como sendo *hoje* ou *amanhã*, além do formato convencional (`dd/mm/aaaa`).
-    - Você pode remover ou alterar o status de uma tafera com base no título e, também, na data (caso haja tarefas com o mesmo título); dessa forma, você evita remover tarefas que possuem o mesmo título.
-    - A tarfa pode ter id
+    - Você pode remover ou alterar o status de uma tarefa com base no título e, também, na data (caso haja tarefas com o mesmo título); dessa forma, você evita remover tarefas que possuem o mesmo título.
+    - A tarefa pode ter id
 
 ### **Dicas**
 
