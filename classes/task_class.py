@@ -55,7 +55,7 @@ class Task:
 
     @staticmethod
     def df_to_task_list(task_df):
-
+        '''This function receives a task_list dataframe and returns a list of objects Task'''
         task_list = []
 
         for index in task_df.index:

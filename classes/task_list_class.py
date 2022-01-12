@@ -109,6 +109,15 @@ class Task_List():
         else:
             raise Exception("[red][!] Formato não suportado.[red]")
 
+    @staticmethod
+    def update_task(task):
+
+        csv_tasks = Task_List.get_task_list()
+
+        csv_tasks.loc[(csv_tasks['title'].str.lower() == task.title.lower()) & (csv_tasks['date'] == task.date)] = [task.title,task.category,task.status,task.date]
+        
+        Task_List.update_task_list(csv_tasks)
+
 from datetime import datetime
 from classes.manage_csv_class import Manage_Csv
 from classes.category_class import Category
