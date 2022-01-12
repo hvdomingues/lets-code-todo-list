@@ -29,7 +29,7 @@ class Task_List():
     @staticmethod
     def get_equal_tasks(task):
         '''This function returns tasks with the same Title or the task having same Title and Date based on object Task. If none found, return empty list.'''
-        existing_tasks = Manage_Csv.read(Task_List.__path)
+        existing_tasks = Task_List.get_task_list()
 
         if task.title != None:
             if task.date != None:
@@ -111,6 +111,7 @@ class Task_List():
 
     @staticmethod
     def update_task(task):
+        '''This function updates the task based on name and date'''
 
         csv_tasks = Task_List.get_task_list()
 

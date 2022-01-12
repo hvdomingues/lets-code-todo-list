@@ -110,19 +110,49 @@ class Menu:
 
         titulo = input('\n - Digite o título da tarefa a ser alterada: ')
 
-        tasks = Task_List.get_task_list()
-        filter = tasks.loc[tasks['title'].str.lower() == titulo.lower()]
-        if len(filter) == 1:
-            index = tasks.loc[tasks['title'].str.lower() == titulo.lower()].first_valid_index()
-            tasks.loc[index,'status'] = 'Concluído' if tasks.loc[index,'status'] == 'Pendente' else 'Pendente'
-            Task_List.update_task_list(tasks)
+        tasks_found = Task_List.get_equal_tasks(Task(title=titulo))
+
+        tasks_found_list = Task.df_to_task_list(tasks_found)
+
+        if len(tasks_found) == 1:
+            
+            if tasks_found_list[0].status == 'Concluído':
+                tasks_found_list[0].status = 'Pendente'
+            else:
+                tasks_found_list[0].status = 'Concluído'
+
+            Task_List.update_task(tasks_found_list[0])
             Menu.clean()
             print('[green][✓] Alteração realizada com sucesso!\n')
             print(Task_List.get_treated_task_list())
-        elif len(filter) > 1:
-            print('\n[red][!] Muitas linhas com esse mesmo título![/]')
+
+        elif len(tasks_found) >= 1:
+            Menu.clean()
+            print(f"Tarefas encontradas com esse título: \n{Menu.list_tasks(tasks_found.values.tolist())}")
+            input_index = (input("\nDigite os indexes que deseja mudar o status separados por espaço ou 'todas' para alterar de todas as tasks. "))
+            
+            if input_index == 'todas':
+                for task in tasks_found_list:
+
+                    task.change_status()
+
+                    Task_List.update_task(task)
+
+                print('\n[green][✓] Alteração de status de todas as tarefas com o mesmo título realizada com sucesso!')
+            else:
+                indexes_to_remove = input_index.split(' ')
+
+                # Troquei para um for fora de list comprehension só para facilitar o print em caso de digitação errada 
+                for index,task in enumerate(tasks_found_list):
+                    if str(index) in indexes_to_remove:
+                        task.change_status()
+                        Task_List.update_task(task)
+
+                print('\n[green][✓] Alteração de status de todas as tarefas selecionadas realizada com sucesso!')
+
         else:
-            print('\n[red][!] Título não encontrado na tabela![/]')
+            print('[red][!] Título não encontrado na tabela![/]')
+
         input('\nPressione qualquer tecla para voltar ao Menu...')
         Menu.navigate()
 

@@ -15,6 +15,12 @@ class Task:
             self.category = Task.check_category(category)
             self.status = Task.check_status(status)
 
+
+    def change_status(self):
+        if self.status == 'Concluído':
+            self.status = 'Pendente'
+        else:
+            self.status = 'Concluído'
     
     @staticmethod
     def check_date(date):
@@ -33,7 +39,7 @@ class Task:
             return category
         elif isinstance(category, str):
             return Category.find_code(category)
-        elif isinstance(category, int):
+        elif isinstance(category, int) or isinstance(category, np.int64):
             return Category.check_code(category)
         else:
             raise TypeError("O tipo da categoria não é válido. Utilize o código ou o nome por extenso.")
@@ -57,12 +63,13 @@ class Task:
     def df_to_task_list(task_df):
         '''This function receives a task_list dataframe and returns a list of objects Task'''
         task_list = []
-
         for index in task_df.index:
-            task_list.append(Task(task_df[index]['title'], date = task_df[index]['date'], category = task_df[index]['category'], status = task_df[index]['status']))
+
+            task_list.append(Task(task_df['title'][index], date = task_df['date'][index], category = task_df['category_code'][index], status = task_df['status'][index]))
 
         return task_list
 
+import numpy as np
 from datetime import datetime
 from os import stat
 from typing import Type
