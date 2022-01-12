@@ -53,6 +53,15 @@ class Task:
         else:
             raise TypeError("O tipo do status está errado. Tipos permitidos, int ou str.")
 
+    @staticmethod
+    def df_to_task_list(task_df):
+
+        task_list = []
+
+        for index in task_df.index:
+            task_list.append(Task(task_df[index]['title'], date = task_df[index]['date'], category = task_df[index]['category'], status = task_df[index]['status']))
+
+        return task_list
 
 from datetime import datetime
 from os import stat
